@@ -1,0 +1,63 @@
+@Library('common-shared-lib') _
+
+import groovy.json.JsonOutput
+
+pipeline {
+    options {
+        timestamps()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+        disableConcurrentBuilds()
+        timeout(time: 1, unit: 'HOURS')  //build timeout, default is 1 hour
+    }
+    environment { // configurable vars
+
+        //basic settings
+        SERVICE_NAME = 'build-kyuubi-authz-plugin'
+        GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
+        DEFAULT_BRANCH = 'main'
+        RELEASE_BRANCH_PATTERN = "^(${DEFAULT_BRANCH}|b\\d{4})"
+        RELEASE_VERSION = "${BRANCH_NAME}_${(new Date()).format('yyyyMMddHHmmss', TimeZone.getTimeZone('UTC'))}"
+
+        //stage enable switches
+        ENABLE_SONAR_SCAN = false  //quality gate: sonar scan
+        PUBLISH_IMAGE = false //publish docker image to registry
+        PUBLISH_ASSEMBLY = true
+        PUBLISH_ARTIFACTS = true //publish artifacts to artifactory
+        ENABLE_SECURITY_SCAN = false
+        DEPLOY_TO_ENV = false
+
+        //artifactory settings
+        ARTIFACTORY_CREDENTIAL = 'sap-release-repo-upload'
+        // can be modified per different jenkins credentials id, only required when PUBLISH_ARTIFACTS is true
+    }
+    parameters {
+        booleanParam(defaultValue: false, description: 'Skip Security Gates, available only ENABLE_SECSCAN is configured', name: 'SKIP_SECURITY')
+    }
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yamlFile 'jenkins/dc-e/KubernetesPod.yaml'
+        }
+
+    }
+    stages {
+
+        stage('publish artifacts') {
+            when {
+                allOf {
+                    branch pattern: RELEASE_BRANCH_PATTERN, comparator: "REGEXP"
+                    environment name: 'PUBLISH_ARTIFACTS', value: 'true'
+                }
+            }
+            steps {
+                container('sapjvm8') {
+                    withCredentials([usernamePassword(credentialsId: ARTIFACTORY_CREDENTIAL, passwordVariable: 'repoPassword', usernameVariable: 'repoUsername')]) {
+                        sh """
+build/mvn clean deploy -pl :kyuubi-spark-authz_2.12 -DskipTests -Dranger.version=2.2.0 -Dspark.version=3.3.1 -s "build/release/sf-settings.xml"
+"""
+                    }
+                }
+            }
+        }
+    }
+}
