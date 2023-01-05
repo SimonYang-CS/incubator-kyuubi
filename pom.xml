@@ -247,12 +247,13 @@
         <spotless.python.black.version>22.3.0</spotless.python.black.version>
         <spotless.scala.scalafmt.version>3.6.1</spotless.scala.scalafmt.version>
 
-        <distMgmtReleaseId>apache.releases.https</distMgmtReleaseId>
-        <distMgmtReleaseName>Apache Release Distribution Repository</distMgmtReleaseName>
-        <distMgmtReleaseUrl>https://repository.apache.org/service/local/staging/deploy/maven2</distMgmtReleaseUrl>
-        <distMgmtSnapshotsId>apache.snapshots.https</distMgmtSnapshotsId>
-        <distMgmtSnapshotsName>Apache Development Snapshot Repository</distMgmtSnapshotsName>
-        <distMgmtSnapshotsUrl>https://repository.apache.org/content/repositories/snapshots</distMgmtSnapshotsUrl>
+        <distMgmtSnapshotsId>sf.release.common</distMgmtSnapshotsId>
+        <distMgmtSnapshotsName>SAP Release Distribution Repository</distMgmtSnapshotsName>
+        <distMgmtSnapshotsUrl>https://common.repositories.cloud.sap/sf-maven/</distMgmtSnapshotsUrl>
+
+        <distMgmtReleaseId>sf.release.common</distMgmtReleaseId>
+        <distMgmtReleaseName>SAP Release Distribution Repository</distMgmtReleaseName>
+        <distMgmtReleaseUrl>https://common.repositories.cloud.sap/sf-maven/</distMgmtReleaseUrl>
     </properties>
 
     <dependencyManagement>
