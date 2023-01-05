@@ -14,7 +14,7 @@ pipeline {
         //basic settings
         SERVICE_NAME = 'build-kyuubi-authz-plugin'
         GIT_URL = scm.getUserRemoteConfigs()[0].getUrl()
-        DEFAULT_BRANCH = 'main'
+        DEFAULT_BRANCH = 'master'
         RELEASE_BRANCH_PATTERN = "^(${DEFAULT_BRANCH}|b\\d{4})"
         RELEASE_VERSION = "${BRANCH_NAME}_${(new Date()).format('yyyyMMddHHmmss', TimeZone.getTimeZone('UTC'))}"
 
