@@ -252,6 +252,18 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
+        <repository>
+            <id>sf.release.common</id>
+            <name>SAP Common Maven Repository</name>
+            <url>https://common.cdn.repositories.cloud.sap/sf-maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
