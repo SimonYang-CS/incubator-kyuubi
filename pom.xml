@@ -219,12 +219,13 @@
         <!-- Package to use when relocating shaded classes. -->
         <kyuubi.shade.packageName>org.apache.kyuubi.shade</kyuubi.shade.packageName>
 
-        <distMgmtReleaseId>apache.releases.https</distMgmtReleaseId>
-        <distMgmtReleaseName>Apache Release Distribution Repository</distMgmtReleaseName>
-        <distMgmtReleaseUrl>https://repository.apache.org/service/local/staging/deploy/maven2</distMgmtReleaseUrl>
-        <distMgmtSnapshotsId>apache.snapshots.https</distMgmtSnapshotsId>
-        <distMgmtSnapshotsName>Apache Development Snapshot Repository</distMgmtSnapshotsName>
-        <distMgmtSnapshotsUrl>https://repository.apache.org/content/repositories/snapshots</distMgmtSnapshotsUrl>
+        <distMgmtSnapshotsId>sf.release.common</distMgmtSnapshotsId>
+        <distMgmtSnapshotsName>SAP Release Distribution Repository</distMgmtSnapshotsName>
+        <distMgmtSnapshotsUrl>https://common.repositories.cloud.sap/sf-maven/</distMgmtSnapshotsUrl>
+
+        <distMgmtReleaseId>sf.release.common</distMgmtReleaseId>
+        <distMgmtReleaseName>SAP Release Distribution Repository</distMgmtReleaseName>
+        <distMgmtReleaseUrl>https://common.repositories.cloud.sap/sf-maven/</distMgmtReleaseUrl>
     </properties>
 
     <repositories>
@@ -1873,6 +1874,20 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>${maven.plugin.assembly.version}</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>assemble-all</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <plugin>
@@ -2127,6 +2142,17 @@
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+
         </plugins>
     </build>
 
