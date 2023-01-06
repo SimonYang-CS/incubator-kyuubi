@@ -230,6 +230,18 @@
 
     <repositories>
         <repository>
+            <id>sf.release.common</id>
+            <name>SAP Common Maven Repository</name>
+            <url>https://common.cdn.repositories.cloud.sap/sf-maven</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
             <id>gcs-maven-central-mirror</id>
             <name>GCS Maven Central mirror Asia Pacific</name>
             <url>https://maven-central-asia.storage-download.googleapis.com/maven2/</url>
@@ -250,18 +262,6 @@
             </releases>
             <snapshots>
                 <enabled>false</enabled>
-            </snapshots>
-        </repository>
-
-        <repository>
-            <id>sf.release.common</id>
-            <name>SAP Common Maven Repository</name>
-            <url>https://common.cdn.repositories.cloud.sap/sf-maven</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
             </snapshots>
         </repository>
     </repositories>
